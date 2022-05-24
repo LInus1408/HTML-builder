@@ -8,6 +8,14 @@ const path = require('path');
 async function go() {
   fs.stat(path.join(__dirname, './files-copy'), function(err) {
     if (!err) {
+      fs.readdir(path.join(__dirname, './files-copy'), (err, files) => {
+        if (err) throw err;     
+        for (const file of files) {
+          fs.unlink(path.join(path.join(__dirname, './files-copy'), file), err => {
+            if (err) throw err;
+          });
+        }
+      });
       copyFiles();
     }
     else if (err.code === 'ENOENT') {
