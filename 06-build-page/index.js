@@ -82,7 +82,7 @@ async function getStyles() {
       console.log(err);
     else {
       files.forEach(file => {
-        if((file.isFile() == true) && (path.parse(file.name).ext == '.css')) {
+        if((file.isFile() == true) && (path.parse(file.name).ext == '.css') && (path.parse(file.name).ext !== 'about.css')) {
           let stream = fs.createReadStream(path.join(__dirname, `./styles/${file.name}`), 'utf-8');
           stream.on('data', chunk => data += chunk);
           stream.on('end', () => {
