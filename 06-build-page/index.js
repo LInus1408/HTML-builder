@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 const fs = require('fs');
 const path = require('path');
-const rimraf = require('rimraf');
 
 const folder = path.join(__dirname, './styles');
 
@@ -82,25 +81,17 @@ async function getStyles() {
 }
 
 async function func() {
-  rimraf(path.join(__dirname, './project-dist/assets'), function () {  
-    fs.mkdir(path.join(__dirname, './project-dist/assets'), err => {
+  fs.mkdir(path.join(__dirname, './project-dist/assets'), err => {
+    if(err) throw err; 
+    fs.mkdir(path.join(__dirname, './project-dist/assets/fonts'), err => {
       if(err) throw err; 
-      rimraf(path.join(__dirname, './project-dist/assets/fonts'), function () {  
-        fs.mkdir(path.join(__dirname, './project-dist/assets/fonts'), err => {
+      fs.mkdir(path.join(__dirname, './project-dist/assets/img'), err => {
+        if(err) throw err; 
+        fs.mkdir(path.join(__dirname, './project-dist/assets/svg'), err => {
           if(err) throw err; 
-          rimraf(path.join(__dirname, './project-dist/assets/img'), function () {  
-            fs.mkdir(path.join(__dirname, './project-dist/assets/img'), err => {
-              if(err) throw err; 
-              rimraf(path.join(__dirname, './project-dist/assets/svg'), function () {  
-                fs.mkdir(path.join(__dirname, './project-dist/assets/svg'), err => {
-                  if(err) throw err; 
-                  copyImg();
-                  copySvg();
-                  copyFonts();
-                });
-              });
-            });
-          });
+          copyImg();
+          copySvg();
+          copyFonts();
         });
       });
     });

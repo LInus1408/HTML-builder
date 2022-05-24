@@ -1,17 +1,14 @@
 /* eslint-disable no-unused-vars */
 const fs = require('fs');
 const path = require('path');
-const rimraf = require('rimraf');
 
 
 
 
 async function go() {
-  rimraf(path.join(__dirname, './files-copy'), function () {  
-    fs.mkdir(path.join(__dirname, './files-copy'), err => {
-      if(err) throw err; 
-      copyFiles();
-    });
+  fs.mkdir(path.join(__dirname, './files-copy'), err => {
+    if(err) throw err; 
+    copyFiles();
   });
 }
 
