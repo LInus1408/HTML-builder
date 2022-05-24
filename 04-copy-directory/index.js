@@ -6,9 +6,16 @@ const path = require('path');
 
 
 async function go() {
-  fs.mkdir(path.join(__dirname, './files-copy'), err => {
-    if(err) throw err; 
-    copyFiles();
+  fs.stat(path.join(__dirname, './files-copy'), function(err) {
+    if (!err) {
+      copyFiles();
+    }
+    else if (err.code === 'ENOENT') {
+      fs.mkdir(path.join(__dirname, './files-copy'), err => {
+        if(err) throw err; 
+        copyFiles();
+      });
+    }
   });
 }
 
@@ -30,3 +37,5 @@ async function copyFiles() {
 
 
 go();
+
+

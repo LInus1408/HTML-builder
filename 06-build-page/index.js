@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 
+
 const folder = path.join(__dirname, './styles');
 
 
@@ -43,10 +44,28 @@ async function readFooterFile(fileContentMain) {
 }
 
 async function createFolder(res) {
-  fs.mkdir(path.join(__dirname, './project-dist'), err => {
-    writeFile(res);
+  fs.stat(path.join(__dirname, './project-dist'), function(err) {
+    if (!err) {
+      writeFile(res);
+    }
+    else if (err.code === 'ENOENT') {
+      fs.mkdir(path.join(__dirname, './project-dist'), err => {
+        if(err) throw err; 
+        fs.mkdir(path.join(__dirname, './project-dist/assets'), err => {
+          fs.mkdir(path.join(__dirname, './project-dist/assets/fonts'), err => {
+            fs.mkdir(path.join(__dirname, './project-dist/assets/img'), err => {
+              fs.mkdir(path.join(__dirname, './project-dist/assets/svg'), err => {
+                writeFile(res);
+              });
+            });
+          });
+        });
+      });
+    }
   });
 }
+
+
 
 async function writeFile(res) {
   fs.writeFile(path.join(__dirname, './project-dist/index.html'), res, function(error){
@@ -81,21 +100,9 @@ async function getStyles() {
 }
 
 async function func() {
-  fs.mkdir(path.join(__dirname, './project-dist/assets'), err => {
-    if(err) throw err; 
-    fs.mkdir(path.join(__dirname, './project-dist/assets/fonts'), err => {
-      if(err) throw err; 
-      fs.mkdir(path.join(__dirname, './project-dist/assets/img'), err => {
-        if(err) throw err; 
-        fs.mkdir(path.join(__dirname, './project-dist/assets/svg'), err => {
-          if(err) throw err; 
-          copyImg();
-          copySvg();
-          copyFonts();
-        });
-      });
-    });
-  });
+  copyImg();
+  copySvg();
+  copyFonts();
 }
 
 async function copyImg() {
@@ -145,4 +152,4 @@ async function copyFonts() {
       });
     }
   });
-}
+} 
