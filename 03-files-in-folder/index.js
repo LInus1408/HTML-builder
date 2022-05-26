@@ -11,9 +11,14 @@ fs.readdir(folder, {withFileTypes: true}, (err, files) => {
   else {
     files.forEach(file => {
       if(file.isFile()) {
-        let stats = fs.statSync(`${folder}/${file.name}`);
-        let fileSizeInBytes = stats.size / 1000;
-        console.log(`${path.parse(file.name).name} - ${path.parse(file.name).ext} - ${fileSizeInBytes}kb`);
+        fs.stat(`${folder}/${file.name}`, (error, stats) => {
+          if (error) {
+            console.log(error);
+          }
+          else {
+            console.log(`${path.parse(file.name).name} - ${path.parse(file.name).ext} - ${stats.size / 1000}kb`);
+          }
+        });
       }
     });
   }

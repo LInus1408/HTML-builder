@@ -31,9 +31,18 @@ async function readHeaderFile(fileContentMain) {
   fs.readFile(path.join(__dirname, './components/header.html'), 'utf8', function(error, fileContent){
     if(error) throw error; 
     let res = fileContentMain.replace(/{{header}}/g, fileContent);
+    readAboutFile(res);
+  });
+}
+
+async function readAboutFile(fileContentMain) {
+  fs.readFile(path.join(__dirname, './components/header.html'), 'utf8', function(error, fileContent){
+    if(error) throw error; 
+    let res = fileContentMain.replace(/{{about}}/g, fileContent);
     readFooterFile(res);
   });
 }
+
 
 async function readFooterFile(fileContentMain) {
   fs.readFile(path.join(__dirname, './components/footer.html'), 'utf8', function(error, fileContent){
