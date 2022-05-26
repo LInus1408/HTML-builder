@@ -36,16 +36,10 @@ async function readHeaderFile(fileContentMain) {
 }
 
 async function readAboutFile(fileContentMain) {
-  fs.access((__dirname, './components/about.html'), function(error){
-    if (error) {
-      readFooterFile(fileContentMain);
-    } else {
-      fs.readFile(path.join(__dirname, './components/about.html'), 'utf8', function(error, fileContent){
-        if(error) throw error; 
-        let res = fileContentMain.replace(/{{about}}/g, fileContent);
-        readFooterFile(res);
-      });
-    }
+  fs.readFile(path.join(__dirname, './components/about.html'), 'utf8', function(error, fileContent){
+    if(error)  readFooterFile(fileContentMain); 
+    let res = fileContentMain.replace(/{{about}}/g, fileContent);
+    readFooterFile(res);
   });
 }
 
